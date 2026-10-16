@@ -70,7 +70,7 @@ label{display:block;font-size:12px;font-weight:600;color:var(--mu);margin:10px 0
 <div class="ov" id="ovO"><div class="md"><h2 id="oT"></h2><div id="oL"></div><button style="width:100%;margin-top:12px" id="oX">Tutup</button></div></div>
 <div class="ov" id="ovD"><div class="md">
  <h2 id="dT">Hapus pesanan?</h2><div id="dI" style="color:var(--mu)"></div>
- <label>Sandi hapus</label><input id="dP" type="password" inputmode="numeric" autocomplete="off" placeholder="Masukkan sandi">
+ <input id="dP" type="hidden">
  <div id="dE" style="color:var(--dg);font-size:13px;min-height:18px;margin-top:6px"></div>
  <div class="row"><button id="dN">Batal</button><button id="dO" style="color:var(--dg)">Hapus</button></div>
 </div></div>
@@ -190,7 +190,7 @@ $('oL').onclick=function(e){var b=e.target.closest('button');
  delRef='kasir_orders/'+b.dataset.d;$('dT').textContent='Hapus pesanan?';$('dI').textContent=b.dataset.i;$('dP').value='';$('dE').textContent='';$('ovD').className='ov on';setTimeout(function(){$('dP').focus()},50)};
 $('dN').onclick=function(){$('ovD').className='ov'};
 function doDel(){
- if($('dP').value!==DELPW){$('dE').textContent='Sandi salah.';$('dP').value='';return}
+ 
  if(!delRef)return;
  if(Array.isArray(delRef)){var bt=fdb.batch();delRef.slice(0,450).forEach(function(p){bt.delete(fdb.doc(p))});bt.commit().then(function(){$('ovD').className='ov'}).catch(showErr);return}
  fdb.doc(delRef).delete().then(function(){$('ovD').className='ov'}).catch(showErr)
