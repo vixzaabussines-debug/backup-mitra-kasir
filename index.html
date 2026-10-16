@@ -4,6 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#262626">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
 <title>Backup Mitra Kasir</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -201,6 +206,7 @@ h1{margin:0 0 14px;font-size:24px}
 </div></div>
 
 <div class="toast" id="toast"></div>
+<div id="netPill" style="display:none;position:fixed;left:50%;transform:translateX(-50%);bottom:14px;z-index:70;color:#fff;font-size:13px;font-weight:600;padding:8px 14px;border-radius:99px;box-shadow:0 2px 10px #0008;max-width:92vw;text-align:center"></div>
 
 <script>
 (function(){
@@ -470,6 +476,17 @@ function startSync(){
   }).catch(function(){})
  }catch(e){}
 }
+
+/* status offline / antrean kirim */
+function updNet(){
+ var p=$('netPill'),n=pnd.length,off=!navigator.onLine;
+ if(ADM){p.style.display='none';return}
+ if(off){p.textContent='Offline \u00b7 pesanan disimpan di perangkat'+(n?' ('+n+' menunggu kirim)':'');p.style.background='#7a5b00';p.style.display='block'}
+ else if(n){p.textContent='Mengirim '+n+' pesanan ke server...';p.style.background='#333';p.style.display='block'}
+ else p.style.display='none'
+}
+window.addEventListener('online',updNet);window.addEventListener('offline',updNet);setInterval(updNet,3000);updNet();
+try{if('serviceWorker' in navigator&&location.protocol!=='file:')window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){})})}catch(e){}
 
 /* simpan keadaan supaya refresh tidak membatalkan pesanan */
 var curView='pos',SK='kc_state_v1_'+USER;
