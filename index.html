@@ -413,14 +413,14 @@ function dt(iso){return new Date(iso).toLocaleDateString('id-ID',{day:'numeric',
 function renderOrders(){
  var o=orders();
  $('orders').innerHTML=(ADM&&o.length?'<button data-all="1" style="width:100%;margin-bottom:10px;color:var(--dg)">Hapus semua penjualan akun ini</button>':'')+o.map(function(r){
-  return '<div class="ord"><div class="n">'+esc(r.name||'Tanpa nama')+'<span class="bd">'+esc(r.pay)+'</span>'+(r.proof?'<span class="bd">Bukti</span>':'')+'<small>'+dt(r.time)+' · '+tm(r.time)+'</small></div><span class="pr">'+rp(r.total)+'</span><button data-id="'+r.id+'" style="padding:0 12px">Lihat</button><button data-d="'+r.id+'" style="padding:0 12px;color:var(--dg)">Hapus</button></div>'
+  return '<div class="ord"><div class="n">'+esc(r.name||'Tanpa nama')+'<span class="bd">'+esc(r.pay)+'</span>'+(r.proof?'<span class="bd">Bukti</span>':'')+'<small>'+dt(r.time)+' · '+tm(r.time)+'</small></div><span class="pr">'+rp(r.total)+'</span><button data-id="'+r.id+'" style="padding:0 12px">Lihat</button>'+(ADM?'<button data-d="'+r.id+'" style="padding:0 12px;color:var(--dg)">Hapus</button>':'')+'</div>'
  }).join('')||'<div class="empty">Belum ada penjualan.</div>'
 }
 $('orders').onclick=function(e){
  var b=e.target.closest('button');if(!b)return;
- if(b.dataset.all){var pw=prompt('Hapus SEMUA penjualan akun ini. Masukkan sandi hapus:');if(pw===null)return;if(pw!==DELPW){toast('Sandi salah');return}
+ if(b.dataset.all){if(!confirm('Hapus SEMUA penjualan akun ini? Tidak bisa dikembalikan.'))return;
   var bt=fdb.batch();orders().slice(0,240).forEach(function(r){bt.delete(fdb.doc('kasir_orders/'+USER+'_'+r.id));if(r.proof)bt.delete(fdb.doc('kasir_bukti/'+USER+'_'+r.id))});bt.commit().then(function(){toast('Semua penjualan dihapus')}).catch(function(){toast('Gagal menghapus')});return}
- if(b.dataset.d){askDel(b.dataset.d);return}
+ if(b.dataset.d){if(ADM)askDel(b.dataset.d);return}
  var r=orders().filter(function(x){return String(x.id)===b.dataset.id})[0];if(!r)return;
  $('dName').textContent=r.name||'Tanpa nama';
  $('dMeta').textContent=dt(r.time)+' · '+tm(r.time)+' · '+r.pay;
@@ -498,6 +498,7 @@ function saveState(){
 var DELPW='111'; /* SANDI HAPUS: ubah angka ini kalau ingin ganti sandi */
 var delT=null,delId=null;
 function askDel(id){
+ if(!ADM)return;
  var r=orders().filter(function(x){return String(x.id)===id})[0];if(!r)return;
  delId=id;var ok=$('delOk');
  $('delInfo').textContent=(r.name||'Tanpa nama')+' · '+rp(r.total)+' · '+tm(r.time);
@@ -506,8 +507,9 @@ function askDel(id){
  }
 function closeDel(){clearInterval(delT);$('ovDel').className='ov'}
 $('delNo').onclick=closeDel;
+$('delPw').style.display='none';if($('delPw').previousElementSibling)$('delPw').previousElementSibling.style.display='none';
 $('delPw').onkeydown=function(e){if(e.key==='Enter')$('delOk').click()};
-$('delOk').onclick=function(){if($('delPw').value!==DELPW){$('delEr').textContent='Sandi salah.';$('delPw').value='';$('delPw').focus();return}var o=orders().filter(function(x){return String(x.id)!==delId});mem=o;setO(o);if(fdb){fdb.doc('kasir_orders/'+USER+'_'+delId).delete().catch(function(){});fdb.doc('kasir_bukti/'+USER+'_'+delId).delete().catch(function(){})}delete PP[delId];savePP();pnd=pnd.filter(function(x){return String(x)!==String(delId)});savePnd();closeDel();renderOrders();toast('Pesanan dihapus')};
+$('delOk').onclick=function(){if(!ADM)return;var o=orders().filter(function(x){return String(x.id)!==delId});mem=o;setO(o);if(fdb){fdb.doc('kasir_orders/'+USER+'_'+delId).delete().catch(function(){});fdb.doc('kasir_bukti/'+USER+'_'+delId).delete().catch(function(){})}delete PP[delId];savePP();pnd=pnd.filter(function(x){return String(x)!==String(delId)});savePnd();closeDel();renderOrders();toast('Pesanan dihapus')};
 
 /* dashboard: adonan */
 var AD={'Original':1,'Filling':1,'Mini Croffle':2,'Extra Topping':0};
