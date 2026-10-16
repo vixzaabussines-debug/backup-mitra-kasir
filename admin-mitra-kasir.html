@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<title>Admin Backup Mitra Kasir</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="firebase-config.js" onerror="void 0"></script>
+<style>
+:root{--bg:#262626;--side:#171717;--card:#1c1c1c;--card2:#272727;--bd:#333;--tx:#fff;--mu:#a1a1a1;--ac:#f5f5f5;--ok:#4ade80;--dg:#f87171;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}html,body{margin:0}html{-webkit-text-size-adjust:100%;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+body{background:var(--bg);color:var(--tx);font:15px/1.4 "Instrument Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;overflow-x:hidden}
+button{font:inherit;color:inherit;cursor:pointer;border:1px solid var(--bd);background:var(--card2);border-radius:12px;min-height:40px;padding:0 14px;font-weight:600}
+button:active{opacity:.75}button:disabled{opacity:.4}button.p{background:var(--ac);border-color:var(--ac);color:#1a1a1a}
+input{width:100%;font:inherit;font-size:16px;color:var(--tx);background:var(--bg);border:1px solid var(--bd);border-radius:12px;padding:10px 12px}
+input:focus{outline:2px solid var(--ac);outline-offset:-1px}
+label{display:block;font-size:12px;font-weight:600;color:var(--mu);margin:10px 0 5px}
+.wrap{max-width:1100px;margin:0 auto;padding:16px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.top h1{margin:0;font-size:22px}.top .r{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.top input{width:auto}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:14px}
+.sum{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
+.sum .l,.k{color:var(--mu);font-size:12px;font-weight:600}.sum .n{font-size:22px;font-weight:800;margin-top:4px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+.bn{font-size:18px;font-weight:700;margin-bottom:8px;display:flex;justify-content:space-between;gap:8px}
+.ln{display:flex;justify-content:space-between;gap:8px;padding:6px 0;border-bottom:1px solid var(--bd)}.ln b{white-space:nowrap}.neg{color:var(--dg)}.pos{color:var(--ok)}
+.ad{display:flex;gap:8px;margin-top:8px}.ad input{flex:1}
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.65);display:none;align-items:center;justify-content:center;padding:16px;z-index:50}.ov.on{display:flex}
+.md{background:var(--card);border:1px solid var(--bd);border-radius:18px;padding:18px;width:100%;max-width:480px;max-height:88vh;max-height:88dvh;overflow-y:auto}
+.md h2{margin:0 0 8px;font-size:18px}.row{display:flex;gap:8px;margin-top:14px}.row button{flex:1}
+.or{padding:10px 0;border-bottom:1px solid var(--bd)}.or .h{display:flex;align-items:center;gap:8px}.or .n{flex:1;min-width:0;font-weight:700;word-break:break-all}.or small{display:block;color:var(--mu);font-weight:400}
+.or .dt{color:var(--mu);font-size:13px;margin-top:6px}.or button{min-height:34px;padding:0 10px}
+.empty{color:var(--mu);text-align:center;padding:22px}.err{background:#3b1d1d;border:1px solid #6b2b2b;color:#fca5a5;border-radius:12px;padding:10px 12px;margin-bottom:12px;display:none;font-size:14px}
+.lg{position:fixed;inset:0;z-index:200;background:var(--side);display:flex;align-items:center;justify-content:center;padding:16px}.lg.off{display:none}
+.lgc{width:100%;max-width:380px;background:var(--card);border:1px solid var(--bd);border-radius:18px;padding:22px}
+@media(max-width:700px){.sum{grid-template-columns:1fr 1fr}.wrap{padding:12px}}
+</style>
+</head>
+<body>
+<div class="lg" id="login"><div class="lgc">
+ <div style="font-size:22px;font-weight:700">Admin Backup Mitra Kasir</div>
+ <label>Email admin</label><input id="lgU" type="email" autocomplete="email" autocapitalize="none" placeholder="Email">
+ <label>Password</label><input id="lgP" type="password" autocomplete="current-password" placeholder="Password">
+ <div id="lgE" style="color:var(--dg);font-size:13px;min-height:18px;margin-top:8px"></div>
+ <button class="p" id="lgB" style="width:100%">Masuk</button>
+</div></div>
+
+<div class="wrap">
+ <div class="top"><h1>Admin · Semua Cabang</h1><div class="r"><input type="date" id="dt"><button id="ak">Kelola akun</button><button id="lo">Keluar</button></div></div>
+ <div class="err" id="err"></div>
+ <div class="sum" id="sum"></div>
+ <div class="grid" id="grid"></div>
+</div>
+
+<div class="ov" id="ovK"><div class="md">
+ <h2>Kelola akun cabang</h2>
+ <label>Nama akun (untuk login kasir)</label><input id="akU" autocapitalize="none" placeholder="contoh: Surodinawan">
+ <label>Kata sandi (minimal 6 karakter)</label><input id="akP" placeholder="Kata sandi">
+ <label>Nama cabang</label><input id="akC" placeholder="contoh: Dear Croffle Surodinawan">
+ <div id="akE" style="color:var(--mu);font-size:13px;min-height:18px;margin-top:8px"></div>
+ <button class="p" id="akS" style="width:100%">Tambah akun</button>
+ <h2 style="margin-top:16px;font-size:16px">Daftar akun</h2><div id="akL"></div>
+ <button style="width:100%;margin-top:12px" id="akX">Tutup</button>
+</div></div>
+<div class="ov" id="ovO"><div class="md"><h2 id="oT"></h2><div id="oL"></div><button style="width:100%;margin-top:12px" id="oX">Tutup</button></div></div>
+<div class="ov" id="ovD"><div class="md">
+ <h2 id="dT">Hapus pesanan?</h2><div id="dI" style="color:var(--mu)"></div>
+ <label>Sandi hapus</label><input id="dP" type="password" inputmode="numeric" autocomplete="off" placeholder="Masukkan sandi">
+ <div id="dE" style="color:var(--dg);font-size:13px;min-height:18px;margin-top:6px"></div>
+ <div class="row"><button id="dN">Batal</button><button id="dO" style="color:var(--dg)">Hapus</button></div>
+</div></div>
+
+<script>
+(function(){
+var $=function(i){return document.getElementById(i)};
+var DELPW='111'; /* sandi hapus */
+var FBCFG=window.FIREBASE_CONFIG||null,ADMIN_EMAIL=String(window.ADMIN_EMAIL||'').toLowerCase(),DOM=window.EMAIL_DOMAIN||'kasir.backupmitrakasir.com';
+function rp(n){return 'Rp '+Math.round(n||0).toLocaleString('id-ID')}
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function tday(){var n=new Date();return n.getFullYear()+'-'+String(n.getMonth()+1).padStart(2,'0')+'-'+String(n.getDate()).padStart(2,'0')}
+function tm(t){return new Date(t).toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'}).replace('.',':')}
+var fdb=null,auth=null,AKUN=[],ord=[],adn={},typed={},selB='',delRef=null,dstr=tday(),uO=null,uA=null,uK=null,started=false;
+$('dt').value=dstr;
+$('dt').onchange=function(){if(this.value){dstr=this.value;typed={};if(started)sub()}};
+function showErr(e){var m=(e&&e.code)||String(e);
+ if(m==='permission-denied')m='Akses ditolak. Periksa Firestore Rules dan ADMIN_EMAIL.';
+ $('err').textContent='Gagal: '+m;$('err').style.display='block'}
+
+/* login admin (Firebase Auth) */
+function go(){
+ var e=$('lgU').value.trim(),p=$('lgP').value;if(!e||!p){$('lgE').textContent='Isi email dan password.';return}
+ $('lgE').textContent='';
+ auth.signInWithEmailAndPassword(e,p).catch(function(x){var c=x&&x.code;$('lgE').textContent=(c==='auth/invalid-credential'||c==='auth/wrong-password'||c==='auth/user-not-found'||c==='auth/invalid-email')?'Email atau password salah. (kode: '+c+')':'Tidak bisa masuk: '+(c||x)})
+}
+$('lgB').onclick=function(){if(auth)go()};
+$('lgP').onkeydown=function(e){if(e.key==='Enter'&&auth)go()};
+$('lo').onclick=function(){if(auth)auth.signOut()};
+
+/* akun cabang */
+function nmOf(u){var a=AKUN.filter(function(x){return x.user===u})[0];return a?(a.cab||a.email||u):u}
+function subAk(){uK=fdb.collection('kasir_akun').onSnapshot(function(q){AKUN=[];q.forEach(function(d){var x=d.data();x.user=d.id;AKUN.push(x)});AKUN.sort(function(a,b){return String(a.cab||a.email).localeCompare(String(b.cab||b.email))});render();renderAk()},showErr)}
+function renderAk(){$('akL').innerHTML=AKUN.map(function(a){
+ return '<div class="or"><div class="n">'+esc(a.nama||a.email)+'</div><div class="ad"><input data-cn="'+esc(a.user)+'" value="'+esc(a.cab||'')+'" placeholder="Nama cabang"><button data-sv="'+esc(a.user)+'">Simpan</button></div>'+
+ '<div class="row" style="margin-top:8px"><button data-v="'+esc(a.user)+'" class="p">Lihat</button><button data-pw="'+esc(a.user)+'" data-e="'+esc(a.email)+'">Ganti sandi</button><button data-u="'+esc(a.user)+'" data-e="'+esc(a.nama||a.email)+'" style="color:var(--dg)">Hapus</button></div></div>'
+}).join('')||'<div class="empty">Belum ada akun.</div>'}
+function akMsg(t){$('akE').textContent=t}
+$('ak').onclick=function(){akMsg('');$('ovK').className='ov on'};
+$('akX').onclick=function(){$('ovK').className='ov'};
+$('akS').onclick=function(){
+ var nm=$('akU').value.trim(),pw=$('akP').value,c=$('akC').value.trim(),em=nm;
+ if(!nm||!pw||!c){akMsg('Isi nama akun, kata sandi, dan nama cabang.');return}
+ if(nm.indexOf('@')<0){if(!/^[A-Za-z0-9._-]+$/.test(nm)){akMsg('Nama akun hanya boleh huruf, angka, titik, garis bawah, atau strip (tanpa spasi).');return}em=nm.toLowerCase()+'@'+DOM}
+ if(pw.length<6){akMsg('Kata sandi minimal 6 karakter.');return}
+ akMsg('Menyimpan…');
+ var app2=firebase.apps.filter(function(a){return a.name==='sec'})[0]||firebase.initializeApp(FBCFG,'sec'),a2=app2.auth();
+ a2.createUserWithEmailAndPassword(em,pw).then(function(cr){
+  var uid=cr.user.uid;
+  return fdb.doc('kasir_akun/'+uid).set({uid:uid,nama:nm,email:em,cab:c,created:Date.now()}).then(function(){return a2.signOut()})
+ }).then(function(){$('akU').value='';$('akP').value='';$('akC').value='';akMsg('Akun tersimpan. Kasir bisa login dengan email dan kata sandi tadi.')})
+ .catch(function(e){try{a2.signOut()}catch(x){}var code=e&&e.code;
+  akMsg(code==='auth/email-already-in-use'?'Nama akun sudah dipakai. Pakai nama lain, atau hapus akun itu dulu di Firebase Console > Authentication.':code==='auth/invalid-email'?'Format email tidak valid.':code==='auth/weak-password'?'Kata sandi terlalu lemah.':code==='auth/operation-not-allowed'?'Aktifkan Email/Password di Firebase Console > Authentication > Sign-in method.':'Gagal: '+(code||e))})
+};
+$('akL').onclick=function(e){var b=e.target.closest('button');if(!b)return;
+ if(b.dataset.v){window.open('index.html?admin='+encodeURIComponent(b.dataset.v),'_blank');return}
+ if(b.dataset.sv){var i=$('akL').querySelector('[data-cn="'+b.dataset.sv+'"]');if(i&&i.value.trim())fdb.doc('kasir_akun/'+b.dataset.sv).update({cab:i.value.trim()}).then(function(){akMsg('Nama cabang diperbarui.')}).catch(showErr)}
+ else if(b.dataset.pw){
+  var old=prompt('Masukkan sandi LAMA akun ini:');if(old===null)return;
+  var nw=prompt('Masukkan sandi BARU (minimal 6 karakter):');if(!nw)return;
+  if(nw.length<6){akMsg('Sandi baru minimal 6 karakter.');return}
+  var app2=firebase.apps.filter(function(a){return a.name==='sec'})[0]||firebase.initializeApp(FBCFG,'sec'),a2=app2.auth();
+  a2.signInWithEmailAndPassword(b.dataset.e,old).then(function(c){return c.user.updatePassword(nw)}).then(function(){return a2.signOut()}).then(function(){akMsg('Sandi berhasil diganti.')}).catch(function(x){try{a2.signOut()}catch(y){}akMsg('Gagal ganti sandi: '+(x.code||x))})
+ }
+ else if(b.dataset.u){delRef='kasir_akun/'+b.dataset.u;$('dT').textContent='Hapus akun?';$('dI').textContent=b.dataset.e+' akan dihapus dari daftar cabang dan tidak bisa login kasir lagi. Data penjualannya tetap ada. Hapus juga di Firebase Console > Authentication agar nama akun bisa dipakai lagi.';$('dP').value='';$('dE').textContent='';$('ovD').className='ov on'}
+};
+
+/* data penjualan */
+function sub(){
+ if(uO)uO();if(uA)uA();
+ var s=new Date(dstr+'T00:00:00').getTime(),e=s+864e5;
+ uO=fdb.collection('kasir_orders').where('t','>=',s).where('t','<',e).onSnapshot(function(q){ord=[];q.forEach(function(d){ord.push(d.data())});render();if(selB)listO()},showErr);
+ uA=fdb.collection('kasir_adonan').where('date','==',dstr).onSnapshot(function(q){adn={};q.forEach(function(d){var x=d.data();adn[x.cab]=x.masuk});render()},showErr)
+}
+function stat(b){
+ var o=ord.filter(function(r){return r.cab===b}),c=0,q=0,u=0;
+ o.forEach(function(r){if(r.pay==='QRIS')q+=r.total;else c+=r.total;u+=r.ad||0});
+ var m=adn[b];return{b:b,n:o.length,c:c,q:q,u:u,m:m,s:m==null?null:m-u}
+}
+function render(){
+ var S=AKUN.map(function(a){return stat(a.user)}),tc=0,tq=0,tn=0,tu=0;
+ S.forEach(function(x){tc+=x.c;tq+=x.q;tn+=x.n;tu+=x.u});
+ $('sum').innerHTML=[['Total pemasukan',rp(tc+tq)],['Tunai',rp(tc)],['QRIS',rp(tq)],['Adonan terpakai',tu+' pcs · '+tn+' pesanan']].map(function(a){return '<div class="card"><div class="l">'+a[0]+'</div><div class="n">'+a[1]+'</div></div>'}).join('');
+ $('grid').innerHTML=S.map(function(x){
+  var v=typed[x.b]!==undefined?typed[x.b]:(x.m==null?'':x.m);
+  var sisa=x.s==null?'<b>-</b>':'<b class="'+(x.s<0?'neg':'pos')+'">'+x.s+' pcs</b>';
+  return '<div class="card"><div class="bn"><span>'+esc(nmOf(x.b))+'</span><span>'+rp(x.c+x.q)+'</span></div>'+
+  '<div class="ln"><span class="k">Tunai</span><b>'+rp(x.c)+'</b></div><div class="ln"><span class="k">QRIS</span><b>'+rp(x.q)+'</b></div>'+
+  '<div class="ln"><span class="k">Pesanan</span><b>'+x.n+'</b></div><div class="ln"><span class="k">Adonan terpakai</span><b>'+x.u+' pcs</b></div>'+
+  '<button class="p" style="width:100%;margin-top:10px" data-a="'+esc(x.b)+'">Lihat akun</button></div>'
+ }).join('')||'<div class="empty">Belum ada cabang. Tekan "Kelola akun" untuk menambah.</div>'
+}
+$('grid').oninput=function(e){var b=e.target.dataset.m;if(b)typed[b]=e.target.value};
+$('grid').onclick=function(e){
+ var t=e.target.closest('button');if(!t)return;
+ if(t.dataset.a){window.open('index.html?admin='+encodeURIComponent(t.dataset.a),'_blank');return}
+ if(t.dataset.s){
+  var b=t.dataset.s,v=parseFloat(typed[b]!==undefined?typed[b]:(adn[b]||''));if(isNaN(v))return;
+  fdb.doc('kasir_adonan/'+b+'_'+dstr).set({cab:b,date:dstr,masuk:v}).then(function(){delete typed[b]}).catch(showErr)
+ }
+};
+function listO(){
+ var o=ord.filter(function(r){return r.cab===selB}).sort(function(a,b){return b.t-a.t});
+ $('oT').textContent=nmOf(selB)+' · '+dstr;
+ var tc=0,tq=0;o.forEach(function(r){if(r.pay==='QRIS')tq+=r.total;else tc+=r.total});
+ var sm='<div class="or"><div class="ln"><span class="k">Tunai</span><b>'+rp(tc)+'</b></div><div class="ln"><span class="k">QRIS</span><b>'+rp(tq)+'</b></div><div class="ln"><span class="k">Total</span><b>'+rp(tc+tq)+'</b></div><div class="ln"><span class="k">Jumlah pesanan</span><b>'+o.length+'</b></div>'+(o.length?'<button data-all="1" style="width:100%;margin-top:8px;color:var(--dg)">Hapus semua penjualan tanggal ini</button>':'')+'</div>';
+ $('oL').innerHTML=sm+o.map(function(r){
+  var it=(r.items||[]).map(function(l){return '<div>'+l.qty+'× '+esc(l.name)+' · '+rp(l.price*l.qty)+(l.note?'<br><i>Catatan: '+esc(l.note)+'</i>':'')+'</div>'}).join('');
+  return '<div class="or"><div class="h"><div class="n">'+esc(r.name||'Tanpa nama')+'<small>'+tm(r.t)+' · '+esc(r.pay)+' · '+rp(r.total)+'</small></div><button data-d="'+esc(r.cab+'_'+r.id)+'" data-i="'+esc((r.name||'Tanpa nama')+' · '+rp(r.total)+' · '+tm(r.t))+'" style="color:var(--dg)">Hapus</button></div><div class="dt">'+it+'</div></div>'
+ }).join('')||'<div class="empty">Belum ada pesanan.</div>'
+}
+$('oX').onclick=function(){selB='';$('ovO').className='ov'};
+$('oL').onclick=function(e){var b=e.target.closest('button');
+ if(b&&b.dataset.all){var oo=ord.filter(function(r){return r.cab===selB});if(!oo.length)return;
+  delRef=oo.map(function(r){return 'kasir_orders/'+r.cab+'_'+r.id});$('dT').textContent='Hapus SEMUA penjualan?';$('dI').textContent=nmOf(selB)+' · '+dstr+' · '+oo.length+' pesanan';$('dP').value='';$('dE').textContent='';$('ovD').className='ov on';setTimeout(function(){$('dP').focus()},50);return}
+ if(!b||!b.dataset.d)return;
+ delRef='kasir_orders/'+b.dataset.d;$('dT').textContent='Hapus pesanan?';$('dI').textContent=b.dataset.i;$('dP').value='';$('dE').textContent='';$('ovD').className='ov on';setTimeout(function(){$('dP').focus()},50)};
+$('dN').onclick=function(){$('ovD').className='ov'};
+function doDel(){
+ if($('dP').value!==DELPW){$('dE').textContent='Sandi salah.';$('dP').value='';return}
+ if(!delRef)return;
+ if(Array.isArray(delRef)){var bt=fdb.batch();delRef.slice(0,450).forEach(function(p){bt.delete(fdb.doc(p))});bt.commit().then(function(){$('ovD').className='ov'}).catch(showErr);return}
+ fdb.doc(delRef).delete().then(function(){$('ovD').className='ov'}).catch(showErr)
+}
+$('dO').onclick=doDel;$('dP').onkeydown=function(e){if(e.key==='Enter')doDel()};
+
+/* mulai / berhenti */
+function start(){if(started)return;started=true;subAk();sub();render()}
+function stop(){started=false;[uO,uA,uK].forEach(function(u){if(u)u()});uO=uA=uK=null;AKUN=[];ord=[];adn={};$('grid').innerHTML='';$('sum').innerHTML=''}
+if(!FBCFG){$('lgE').textContent='firebase-config.js tidak ditemukan atau belum diisi.'}
+else if(typeof firebase==='undefined'){$('lgE').textContent='Firebase gagal dimuat (cek internet).'}
+else{try{
+ firebase.initializeApp(FBCFG);auth=firebase.auth();fdb=firebase.firestore();try{fdb.settings({experimentalForceLongPolling:true,merge:true})}catch(e){}
+ auth.onAuthStateChanged(function(u){
+  if(u&&u.email&&u.email.toLowerCase()===ADMIN_EMAIL){$('login').className='lg off';start()}
+  else{if(u){$('lgE').textContent='Akun ini bukan admin.';auth.signOut()}stop();$('login').className='lg'}
+ })
+}catch(e){$('lgE').textContent='Gagal memulai Firebase: '+e}}
+})();
+</script>
+</body>
+</html>
