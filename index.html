@@ -11,7 +11,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <title>Backup Mitra Kasir</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
@@ -101,7 +101,45 @@ h1{margin:0 0 14px;font-size:24px}
 @media(max-height:480px) and (orientation:landscape){.ov{align-items:flex-start;overflow-y:auto}}
 .lg{position:fixed;inset:0;z-index:200;background:var(--side);display:none;align-items:center;justify-content:center;padding:16px;overflow-y:auto}.lg.on{display:flex}
 .lgc{width:100%;max-width:380px;background:var(--card);border:1px solid var(--bd);border-radius:18px;padding:22px}.lgt{font-size:24px;font-weight:700}.lgs{color:var(--mu);margin:2px 0 6px}
+/* ===== cetak struk ===== */
+select{width:100%;font:inherit;font-size:16px;color:var(--tx);background:var(--bg);border:1px solid var(--bd);border-radius:12px;padding:11px 13px}
+.ck{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--tx);margin:14px 0 0;cursor:pointer}
+.ck input{width:20px;height:20px;padding:0;flex:none;accent-color:#f5f5f5}
+input[type=range]{padding:0;border:0;background:none;accent-color:#f5f5f5}
+.pv .card{max-width:640px;margin-bottom:14px}
+.pv h3{margin:2px 4px 8px;font-size:16px}
+.dev{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;text-align:left;border-radius:12px;padding:10px 14px;background:var(--bg);font-weight:500}
+.dev small{color:var(--mu);font-weight:400}
+.dev[aria-pressed=true]{border-color:var(--ac);box-shadow:inset 3px 0 0 var(--ac)}
+.dev[aria-pressed=true] small{color:var(--ok);font-weight:600}
+.skh{color:var(--mu);font-size:12px;margin:10px 0 0}
+.sks{font-size:13px;color:var(--mu);margin-top:10px;min-height:18px}
+.sks[data-k=ok]{color:var(--ok)}.sks[data-k=warn]{color:#fbbf24}.sks[data-k=err]{color:var(--dg)}
+.skst{display:flex;justify-content:center;margin-top:12px;padding:14px 8px;background:var(--bg);border:1px solid var(--bd);border-radius:12px;max-height:50vh;max-height:50dvh;overflow:auto}
+#skWrap{width:fit-content;filter:drop-shadow(0 8px 10px rgba(0,0,0,.45))}
+#skPaper{background:#FBFBF6;color:#1B1D3B;padding:22px 18px 16px;font:14px/1.35 "Courier Prime","Courier New",ui-monospace,monospace;width:calc(var(--cols,32)*1ch + 36px);min-height:80px}
+#skPaper .ln{white-space:pre;min-height:1.35em}
+#skPaper .ln.b{font-weight:700}
+#skPaper .ln.big{font-size:2em;line-height:1.15;min-height:1.15em}
+#skPaper .ln.img{white-space:normal;line-height:0;min-height:0;margin:4px 0}
+#skPaper .ln.img canvas{display:inline-block;image-rendering:pixelated;max-width:100%}
+.zig{height:9px;background:#FBFBF6;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9'%3E%3Cpolygon points='0,0 14,0 7,9'/%3E%3C/svg%3E") repeat-x;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9'%3E%3Cpolygon points='0,0 14,0 7,9'/%3E%3C/svg%3E") repeat-x}
+@keyframes skfeed{from{clip-path:inset(0 0 100% 0)}to{clip-path:inset(0 0 0 0)}}
+#skWrap.feeding{animation:skfeed 1.6s steps(28) both}
+@media(prefers-reduced-motion:reduce){#skWrap.feeding{animation:none}}
+@media print{
+ html,body{background:#fff!important}
+ body>*:not(#ovStruk){display:none!important}
+ #ovStruk{position:static!important;display:block!important;padding:0;background:none}
+ #ovStruk .md{max-width:none!important;max-height:none;overflow:visible;border:0;border-radius:0;padding:0;background:none}
+ #ovStruk .md>*:not(.skst){display:none!important}
+ .skst{display:block;border:0;padding:0;margin:0;background:none;max-height:none!important;overflow:visible!important}
+ #skWrap{filter:none;zoom:1!important;animation:none!important;width:auto}
+ #skWrap .zig{display:none}
+ #skPaper{width:calc(var(--cols,32)*1ch);padding:2mm 0 4mm;font-size:var(--pfs,3mm);background:#fff;color:#000}
+}
 </style>
+<style id="pagecss"></style>
 </head>
 <body>
 <div class="lg on" id="login"><div class="lgc">
@@ -121,6 +159,8 @@ h1{margin:0 0 14px;font-size:24px}
   <button class="nv on" data-v="pos"><svg viewBox="0 0 24 24"><path d="M5 8h14l-1 12H6L5 8z"/><path d="M9 8a3 3 0 016 0"/></svg>POS</button>
   <div class="gl">Analitik &amp; Laporan</div>
   <button class="nv" data-v="jual"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="1"/><path d="M8 13l3-3 2 2 3-4"/><path d="M12 16v4M8 20h8"/></svg>Penjualan</button>
+ <div class="gl">Pengaturan</div>
+  <button class="nv" data-v="printer"><svg viewBox="0 0 24 24"><path d="M7 9V3h10v6"/><rect x="3" y="9" width="18" height="8" rx="1"/><path d="M7 14h10v7H7z"/></svg>Printer</button>
  <div class="sf"><i id="sfI">K</i><span id="sfN" style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis">Kasir</span><button id="lo" style="min-height:34px;padding:0 12px;font-size:13px">Keluar</button></div>
  </aside>
  <div class="sc" id="sc"></div>
@@ -151,6 +191,44 @@ h1{margin:0 0 14px;font-size:24px}
   <section class="v" id="v-jual">
    <h1>Penjualan</h1>
    <div class="card" id="orders"></div>
+  </section>
+
+  <section class="v pv" id="v-printer">
+   <h1>Printer</h1>
+   <div class="card">
+    <h3 style="display:flex;justify-content:space-between;align-items:center">Printer struk<button id="skRescan" style="min-height:34px;font-size:13px;padding:0 12px">Pindai ulang</button></h3>
+    <div id="skDev" style="display:grid;gap:8px"></div>
+    <div class="seg" style="margin-top:10px"><button data-add="usb" style="color:var(--tx)">Tambah USB</button><button data-add="serial" style="color:var(--tx)">Tambah serial</button><button data-add="bt" style="color:var(--tx)">Bluetooth</button></div>
+    <p class="skh" id="skHint"></p>
+    <div class="sks" id="skMsg" role="status" aria-live="polite"></div>
+   </div>
+   <div class="card">
+    <h3>Pengaturan struk</h3>
+    <label>Lebar kertas</label>
+    <div class="seg"><button data-cols="32">58 mm</button><button data-cols="48">80 mm</button></div>
+    <label>Nama toko</label><input id="skName" placeholder="Nama toko">
+    <label>Alamat / keterangan (opsional)</label><textarea id="skAddr" rows="2" placeholder="Alamat, nomor telepon…"></textarea>
+    <label>Teks di bawah struk</label><input id="skFoot" placeholder="Terima kasih!">
+    <label>Logo (opsional)</label>
+    <div class="seg"><button type="button" id="skLogoPick" style="color:var(--tx)">Pilih logo</button><button type="button" id="skLogoDel" style="color:var(--dg)">Hapus logo</button></div>
+    <input type="file" id="skLogoFile" accept="image/*" style="display:none">
+    <div id="skLogoBox" style="display:none">
+     <img id="skLogoImg" alt="Logo" style="max-width:100%;max-height:100px;border-radius:8px;margin-top:8px;background:#fff">
+     <label>Lebar logo</label>
+     <select id="skLogoW"><option value="25">25%</option><option value="50">50%</option><option value="75">75%</option><option value="100">100%</option></select>
+     <label>Gaya hitam putih</label>
+     <select id="skLogoM"><option value="fs">Berbintik (halus)</option><option value="th">Tegas (hitam putih murni)</option></select>
+     <label>Kecerahan</label>
+     <input type="range" id="skLogoB" min="-100" max="100" step="5">
+     <label class="ck"><input type="checkbox" id="skLogoI">Balik warna</label>
+    </div>
+    <label>Setelah pesanan dilayani</label>
+    <select id="skAfter"><option value="ask">Tampilkan struk, lalu pilih cetak</option><option value="auto">Langsung cetak ke printer</option><option value="off">Jangan tampilkan struk</option></select>
+    <label class="ck"><input type="checkbox" id="skCut">Potong kertas setelah cetak</label>
+    <label>Baud rate (khusus printer serial)</label>
+    <select id="skBaud"><option>9600</option><option>19200</option><option>38400</option><option>57600</option><option>115200</option></select>
+    <button class="p" id="skTest" style="width:100%;margin-top:16px">Cetak percobaan</button>
+   </div>
   </section>
  </main>
 </div>
@@ -193,7 +271,16 @@ h1{margin:0 0 14px;font-size:24px}
  <div id="dItems"></div>
  <div id="dProof" style="margin-top:8px"></div>
  <div class="tot"><span>Total</span><span id="dTot"></span></div>
- <button style="width:100%" id="dClose">Tutup</button>
+ <button class="p" style="width:100%;margin-bottom:8px" id="dPrint">Cetak struk</button><button style="width:100%" id="dClose">Tutup</button>
+</div></div>
+
+<div class="ov" id="ovStruk"><div class="md" style="max-width:460px">
+ <h2 id="skTitle">Struk</h2>
+ <div id="skPl" style="color:var(--mu);font-size:13px;margin-top:2px"></div>
+ <div class="skst" id="skStage"><div id="skWrap"><div id="skPaper" aria-label="Pratinjau struk"></div><div class="zig"></div></div></div>
+ <div class="sks" id="skStat" role="status" aria-live="polite"></div>
+ <button class="p" id="skPrint" style="width:100%;margin-top:10px">Cetak ke printer</button>
+ <div class="row" style="margin-top:8px"><button id="skBrowser">Via browser</button><button id="skClose">Tutup</button></div>
 </div></div>
 
 <div class="ov" id="ovDel"><div class="md">
@@ -275,9 +362,9 @@ function total(){return cart.reduce(function(s,l){return s+l.price*l.qty},0)}
 function show(v){
  document.querySelectorAll('.v').forEach(function(e){e.classList.toggle('on',e.id==='v-'+v)});
  document.querySelectorAll('.nv').forEach(function(e){e.classList.toggle('on',e.dataset.v===v)});
- curView=v;$('mt').textContent={pos:'POS',jual:'Penjualan',dash:'Dashboard'}[v];
+ curView=v;$('mt').textContent={pos:'POS',jual:'Penjualan',dash:'Dashboard',printer:'Printer'}[v];
  $('cbar').style.display=v==='pos'&&window.innerWidth<=900?'flex':'none';
- closeSide();if(v==='jual')renderOrders();if(v==='dash')renderDash();saveState()
+ closeSide();if(v==='jual')renderOrders();if(v==='dash')renderDash();if(v==='printer')skScan();saveState()
 }
 function closeSide(){$('side').classList.remove('on');$('sc').classList.remove('on')}
 document.querySelectorAll('.nv').forEach(function(b){b.onclick=function(){show(b.dataset.v)}});
@@ -404,7 +491,7 @@ $('pOk').onclick=function(){
  var o=orders();
  o.unshift({id:Date.now(),name:$('pName').value.trim(),time:new Date().toISOString(),total:total(),pay:pay,proof:(pay==='QRIS'&&proofImg)?1:0,
   items:cart.map(function(l){return{name:l.name,price:l.price,qty:l.qty,note:l.note}})});
- setO(o);var nr=o[0];pnd.push(nr.id);savePnd();pushOrder(nr);if(nr.proof){PP[nr.id]=proofImg;savePP();pushProof(nr.id)}proofImg='';$('ovPay').className='ov';cart=[];renderCart();toast('Pesanan dilayani')
+ setO(o);var nr=o[0];var cashIn=pay==='Cash'?(parseFloat(($('pNom').value||'').replace(/\D/g,''))||0):0;if(cashIn>0){CASH[nr.id]=cashIn;saveCash()}pnd.push(nr.id);savePnd();pushOrder(nr);if(nr.proof){PP[nr.id]=proofImg;savePP();pushProof(nr.id)}proofImg='';$('ovPay').className='ov';cart=[];renderCart();toast('Pesanan dilayani');skAfterPay(nr,cashIn||null)
 };
 
 /* penjualan */
@@ -427,7 +514,7 @@ $('orders').onclick=function(e){
  $('dItems').innerHTML=r.items.map(function(l){
   return '<div class="dl"><div style="display:flex;justify-content:space-between;gap:8px"><span>'+l.qty+'× '+esc(l.name)+'</span><span class="pr">'+rp(l.price*l.qty)+'</span></div>'+(l.note?'<div class="nt" style="color:var(--mu);font-size:13px;font-style:italic">Catatan: '+esc(l.note)+'</div>':'')+'</div>'
  }).join('');
- $('dTot').textContent=rp(r.total);$('ovDet').className='ov on';showProof(r)
+ $('dTot').textContent=rp(r.total);curR=r;$('ovDet').className='ov on';showProof(r)
 };
 $('dClose').onclick=function(){curDet=null;$('ovDet').className='ov'};
 
@@ -542,6 +629,332 @@ function renderDashOld(){
   '<div class="card"><h3 style="margin:2px 4px 6px;font-size:16px">Rincian adonan</h3>'+rows+'</div>'+
   '<div class="card" style="margin-top:14px"><h3 style="margin:2px 4px 6px;font-size:16px">Adonan per hari</h3>'+dr+'</div>'
 }
+
+/* ===== CETAK STRUK =====
+   Struk dibuat otomatis dari data pesanan. Dikirim ke printer thermal (ESC/POS) lewat USB, serial, atau Bluetooth BLE,
+   atau dicetak lewat dialog cetak browser. Pengaturan disimpan per perangkat (printer itu menempel di perangkat ini). */
+var SS={cols:32,cut:true,baud:9600,after:'ask',name:'MITRA KASIR',addr:'',foot:'Terima kasih!',logo:null};
+try{var _s=JSON.parse(localStorage.getItem('kc_struk_v1')||'null');if(_s&&typeof _s==='object')for(var _k in _s)if(_k in SS)SS[_k]=_s[_k]}catch(e){}
+if(SS.cols!==48)SS.cols=32;
+function saveSS(){try{localStorage.setItem('kc_struk_v1',JSON.stringify(SS))}catch(e){}}
+/* nominal tunai disimpan lokal (tidak ikut ke Firestore) supaya struk cetak ulang bisa menampilkan tunai & kembalian */
+var CASH={};try{CASH=JSON.parse(localStorage.getItem('kc_cash_'+USER)||'{}')||{}}catch(e){CASH={}}
+function saveCash(){if(ADM)return;var k=Object.keys(CASH);if(k.length>300){k.sort().slice(0,k.length-300).forEach(function(x){delete CASH[x]})}try{localStorage.setItem('kc_cash_'+USER,JSON.stringify(CASH))}catch(e){}}
+var curR=null,curS=null,skBusy=false;
+var skFmt=function(n){return Math.round(n||0).toLocaleString('id-ID')};
+var skAscii=function(s){return Array.from(String(s==null?'':s).normalize('NFD').replace(/[\u0300-\u036f]/g,'')).map(function(c){return(c==='\n'||(c>=' '&&c<='~'))?c:'?'}).join('')};
+var skSleep=function(ms){return new Promise(function(r){setTimeout(r,ms)})};
+var skHex=function(n){return n.toString(16).padStart(4,'0')};
+function skSay(m,k){['skMsg','skStat'].forEach(function(i){var e=$(i);if(e){e.textContent=m;e.dataset.k=k||''}})}
+function skErr(e){
+ if(e&&(e.name==='SecurityError'||/permissions policy|not allowed/i.test(e.message||'')))return 'Akses perangkat diblokir di halaman ini. Buka aplikasi langsung di Chrome atau Edge (bukan di dalam aplikasi lain).';
+ return e&&e.message?e.message:String(e)
+}
+
+/* ---------- logo hitam putih ---------- */
+var imgEls=new Map(),procCache=new WeakMap();
+function getImg(src){var im=imgEls.get(src);if(!im){im=new Image();im.onload=function(){skPaint()};im.src=src;imgEls.set(src,im)}return im}
+function processImage(b){
+ var im=getImg(b.src);if(!im.complete||!im.naturalWidth)return null;
+ var dots=SS.cols===32?384:576;
+ var w=Math.max(8,Math.round(dots*(+b.width||100)/100/8)*8),h=Math.max(1,Math.round(im.naturalHeight*w/im.naturalWidth));
+ var key=[b.src.length,b.src.slice(-24),w,b.bright,b.mode,b.invert].join('|');
+ var c=procCache.get(b);if(c&&c.key===key)return c.bm;
+ var cv=document.createElement('canvas');cv.width=w;cv.height=h;
+ var cx=cv.getContext('2d',{willReadFrequently:true});cx.fillStyle='#fff';cx.fillRect(0,0,w,h);cx.drawImage(im,0,0,w,h);
+ var d=cx.getImageData(0,0,w,h).data,g=new Float32Array(w*h),br=+b.bright||0,i;
+ for(i=0;i<w*h;i++)g[i]=Math.min(255,Math.max(0,0.299*d[i*4]+0.587*d[i*4+1]+0.114*d[i*4+2]+br));
+ var px=new Uint8Array(w*h);
+ for(var y=0;y<h;y++)for(var x=0;x<w;x++){
+  i=y*w+x;var old=g[i],nw=old<128?0:255;px[i]=nw===0?1:0;
+  if(b.mode!=='th'){var e=old-nw;
+   if(x+1<w)g[i+1]+=e*7/16;
+   if(y+1<h){if(x>0)g[i+w-1]+=e*3/16;g[i+w]+=e*5/16;if(x+1<w)g[i+w+1]+=e/16}
+  }
+  if(b.invert)px[i]^=1
+ }
+ var bm={w:w,h:h,px:px};procCache.set(b,{key:key,bm:bm});return bm
+}
+function drawBm(cv,bm){
+ cv.width=bm.w;cv.height=bm.h;cv.style.width=(bm.w/12)+'ch';
+ var cx=cv.getContext('2d'),im=cx.createImageData(bm.w,bm.h);
+ for(var i=0;i<bm.px.length;i++)if(bm.px[i]){im.data[i*4]=27;im.data[i*4+1]=29;im.data[i*4+2]=59;im.data[i*4+3]=255}
+ cx.putImageData(im,0,0)
+}
+
+/* ---------- isi struk (dipakai pratinjau, ESC/POS, dan cetak browser) ---------- */
+function skWrap(s,w){
+ var out=[];
+ String(s).split('\n').forEach(function(raw){
+  var line='';
+  raw.split(' ').forEach(function(word){
+   while(word.length>w){if(line){out.push(line);line=''}out.push(word.slice(0,w));word=word.slice(w)}
+   if(!line)line=word;else if((line+' '+word).length<=w)line+=' '+word;else{out.push(line);line=word}
+  });
+  out.push(line)
+ });
+ return out
+}
+function skCash(){return curS&&curS.cash!=null?curS.cash:(curS?CASH[curS.r.id]:0)}
+function skLines(r,cash){
+ var cols=SS.cols,out=[];
+ var push=function(t,o){out.push(Object.assign({t:t,align:'L',bold:false,big:false},o||{}))};
+ var txt=function(s,o){var w=o&&o.big?Math.floor(cols/2):cols;skWrap(skAscii(s),w).forEach(function(x){push(x,o)})};
+ var row=function(L,R,bold){
+  L=skAscii(L);R=skAscii(R);var o={bold:!!bold};
+  if(L.length+R.length+1<=cols){push(L+' '.repeat(cols-L.length-R.length)+R,o);return}
+  skWrap(L,cols).forEach(function(t){push(t,o)});
+  skWrap(R,cols).forEach(function(t){push(t,Object.assign({},o,{align:'R'}))})
+ };
+ var ln=function(c){push(c.repeat(cols))};
+ if(SS.logo&&SS.logo.src){var bm=processImage(SS.logo);if(bm)push('',{align:'C',bm:bm})}
+ if(SS.name)txt(SS.name,{align:'C',bold:true,big:true});
+ if(SS.addr)txt(SS.addr,{align:'C'});
+ var cn=r.cn||CABNAME;if(cn)txt('Cabang: '+cn,{align:'C'});
+ ln('-');
+ row(dt(r.time),tm(r.time));
+ row('No',String(r.id).slice(-6));
+ if(r.name)row('Pelanggan',r.name);
+ ln('-');
+ (r.items||[]).forEach(function(l){
+  skWrap(skAscii(l.name),cols).forEach(function(x){push(x)});
+  row('  '+l.qty+' x '+skFmt(l.price),skFmt(l.price*l.qty));
+  if(l.note)skWrap(skAscii(l.note),Math.max(8,cols-4)).forEach(function(x,i){push('  '+(i?'  ':'* ')+x)})
+ });
+ ln('-');
+ row('TOTAL','Rp '+skFmt(r.total),true);
+ row('Bayar',r.pay||'');
+ if(r.pay!=='QRIS'&&cash>0){row('Tunai','Rp '+skFmt(cash));if(cash>=r.total)row('Kembali','Rp '+skFmt(cash-r.total))}
+ ln('=');
+ if(SS.foot)txt(SS.foot,{align:'C'});
+ push('');
+ return out
+}
+function toBytes(lines){
+ var a=[0x1B,0x40];
+ lines.forEach(function(l){
+  var al={L:0,C:1,R:2}[l.align];
+  if(l.bm){
+   var w=l.bm.w,h=l.bm.h,px=l.bm.px,bw=w/8;
+   a.push(0x1B,0x61,al);
+   for(var y0=0;y0<h;y0+=256){
+    var hh=Math.min(256,h-y0);
+    a.push(0x1D,0x76,0x30,0,bw&255,bw>>8,hh&255,hh>>8);
+    for(var y=y0;y<y0+hh;y++)for(var bx=0;bx<bw;bx++){var v=0;for(var k=0;k<8;k++)v=(v<<1)|px[y*w+bx*8+k];a.push(v)}
+   }
+   return
+  }
+  a.push(0x1B,0x61,al,0x1B,0x45,l.bold?1:0,0x1D,0x21,l.big?0x11:0);
+  for(var i=0;i<l.t.length;i++)a.push(l.t.charCodeAt(i));
+  a.push(0x0A)
+ });
+ a.push(0x1B,0x61,0,0x1B,0x45,0,0x1D,0x21,0,0x1B,0x64,3);
+ if(SS.cut)a.push(0x1D,0x56,0x42,0x00);
+ return new Uint8Array(a)
+}
+
+/* ---------- pratinjau ---------- */
+function skFit(){
+ var w=$('skWrap'),st=$('skStage');w.style.zoom=1;
+ var av=st.clientWidth-30;if(av>0&&w.offsetWidth>0)w.style.zoom=Math.min(1,av/w.offsetWidth)
+}
+function skPaint(){
+ if(!curS||!$('ovStruk').classList.contains('on'))return;
+ var p=$('skPaper');p.style.setProperty('--cols',SS.cols);
+ var mm=SS.cols===32?58:80;p.style.setProperty('--pfs',(mm/SS.cols/0.6).toFixed(2)+'mm');
+ var bms=[];
+ p.innerHTML=skLines(curS.r,skCash()).map(function(l){
+  var al='text-align:'+{L:'left',C:'center',R:'right'}[l.align];
+  if(l.bm)return '<div class="ln img" style="'+al+'"><canvas data-bm="'+(bms.push(l.bm)-1)+'"></canvas></div>';
+  return '<div class="ln'+(l.big?' big':'')+(l.bold?' b':'')+'" style="'+al+'">'+(esc(l.t)||'&nbsp;')+'</div>'
+ }).join('');
+ p.querySelectorAll('canvas[data-bm]').forEach(function(c){drawBm(c,bms[+c.dataset.bm])});
+ skFit()
+}
+function skOpen(r,o){
+ o=o||{};curS={r:r,cash:o.cash==null?null:o.cash};
+ $('skTitle').textContent=o.test?'Cetak percobaan':'Struk';
+ $('ovStruk').className='ov on';skSay('');skRenderDev();skPaint()
+}
+window.addEventListener('resize',skFit);
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(skFit);
+
+/* ---------- deteksi printer ---------- */
+var SUP={usb:!!navigator.usb,serial:!!navigator.serial,bt:!!navigator.bluetooth};
+var BT_SERVICES=['000018f0-0000-1000-8000-00805f9b34fb','0000ff00-0000-1000-8000-00805f9b34fb','0000ffe0-0000-1000-8000-00805f9b34fb','0000fee7-0000-1000-8000-00805f9b34fb','0000ae30-0000-1000-8000-00805f9b34fb','49535343-fe7d-4ae5-8fa9-9fafd205e455','e7810a71-73ae-499d-8c15-faa9aef0c3f2'];
+var KIND={usb:'USB',serial:'Serial',bt:'Bluetooth'};
+var skDevs=[],skSel=null;try{skSel=localStorage.getItem('kc_printer')}catch(e){}
+async function skScan(){
+ var found=[];
+ try{if(SUP.usb)for(const d of await navigator.usb.getDevices())found.push({key:'usb:'+d.vendorId+':'+d.productId+':'+(d.serialNumber||''),kind:'usb',ref:d,label:d.productName||('Perangkat USB '+skHex(d.vendorId)+':'+skHex(d.productId))})}catch(e){}
+ try{if(SUP.serial)(await navigator.serial.getPorts()).forEach(function(p,i){
+  var inf=p.getInfo?p.getInfo():{};
+  found.push({key:'serial:'+(inf.usbVendorId||0)+':'+(inf.usbProductId||0)+':'+i,kind:'serial',ref:p,label:inf.usbVendorId?('Port serial '+skHex(inf.usbVendorId)+':'+skHex(inf.usbProductId||0)):'Port serial'})})}catch(e){}
+ try{if(SUP.bt&&navigator.bluetooth.getDevices)for(const d of await navigator.bluetooth.getDevices())found.push({key:'bt:'+d.id,kind:'bt',ref:d,label:d.name||'Perangkat Bluetooth'})}catch(e){}
+ skDevs.filter(function(d){return d.kind==='bt'&&!found.some(function(f){return f.key===d.key})}).forEach(function(d){found.push(d)});
+ skDevs=found;
+ if(!skDevs.some(function(d){return d.key===skSel}))skSel=skDevs.length===1?skDevs[0].key:null;
+ skRenderDev()
+}
+function skChoose(key){skSel=key;try{localStorage.setItem('kc_printer',key)}catch(e){}skRenderDev()}
+function skRenderDev(){
+ var L=$('skDev');
+ L.innerHTML=skDevs.length?skDevs.map(function(d){return '<button class="dev" data-key="'+esc(d.key)+'" aria-pressed="'+(d.key===skSel)+'"><span>'+esc(d.label)+'</span><small>'+(d.key===skSel?'Dipakai':KIND[d.kind])+'</small></button>'}).join('')
+  :'<div class="empty" style="padding:12px 4px;text-align:left">Belum ada printer terdeteksi. Sambungkan printer lalu pilih Tambah di bawah. Cukup sekali, setelah itu otomatis muncul di sini.</div>';
+ L.querySelectorAll('.dev').forEach(function(b){b.onclick=function(){skChoose(b.dataset.key)}});
+ document.querySelectorAll('[data-add]').forEach(function(b){b.style.opacity=SUP[b.dataset.add]?'':'.55'});
+ var names=Object.keys(SUP).filter(function(k){return SUP[k]}).map(function(k){return KIND[k]});
+ $('skHint').textContent=(names.length?'Browser ini mendukung '+names.join(', ')+'. Hanya perangkat yang pernah kamu izinkan yang bisa dideteksi otomatis. Bluetooth hanya untuk printer BLE.':'Browser ini belum bisa mengakses printer langsung. Pakai Chrome atau Edge, atau gunakan Cetak lewat browser.')+' Diagnosa: alamat '+location.protocol+', aman '+(isSecureContext?'ya':'tidak')+', Bluetooth '+(SUP.bt?'tersedia':'tidak tersedia')+'.';
+ var it=skDevs.filter(function(d){return d.key===skSel})[0];
+ $('skPl').textContent=it?'Printer: '+it.label:'Printer belum dipilih (atur di menu Printer)'
+}
+function skWhyNot(k){
+ var n={usb:'USB',serial:'serial',bt:'Bluetooth'}[k];
+ if(self!==top)return 'Halaman ini tampil di dalam bingkai, jadi akses '+n+' diblokir. Buka langsung di Chrome.';
+ if(!isSecureContext)return 'Chrome menolak '+n+' karena alamat halaman ('+location.protocol+') dianggap tidak aman. Buka lewat HTTPS atau localhost.';
+ return 'Browser ini tidak mendukung '+n+'. Pakai Chrome atau Edge, bukan Firefox, Safari, atau browser di dalam aplikasi lain.'
+}
+$('skRescan').onclick=async function(){await skScan();skSay(skDevs.length?skDevs.length+' perangkat ditemukan.':'Belum ada perangkat yang diizinkan.')};
+document.querySelectorAll('[data-add]').forEach(function(b){b.onclick=async function(){
+ var k=b.dataset.add;
+ if(!SUP[k]){skSay(skWhyNot(k),'err');return}
+ skSay(k==='bt'?'Membuka pencarian Bluetooth… pastikan printer menyala.':'Membuka daftar perangkat…');
+ try{
+  if(k==='usb'){var d=await navigator.usb.requestDevice({filters:[]});await skScan();var f=skDevs.filter(function(x){return x.ref===d})[0];if(f)skChoose(f.key)}
+  if(k==='serial'){var p=await navigator.serial.requestPort();await skScan();var f2=skDevs.filter(function(x){return x.ref===p})[0];if(f2)skChoose(f2.key)}
+  if(k==='bt'){
+   var bd=await navigator.bluetooth.requestDevice({acceptAllDevices:true,optionalServices:BT_SERVICES});
+   var it={key:'bt:'+bd.id,kind:'bt',ref:bd,label:bd.name||'Perangkat Bluetooth'};
+   if(!skDevs.some(function(x){return x.key===it.key}))skDevs.push(it);
+   skChoose(it.key)
+  }
+  skSay('Printer siap dipakai.','ok')
+ }catch(e){
+  skSay(e.name==='NotFoundError'?'Tidak ada perangkat yang dipilih atau ditemukan. Pastikan printer menyala, Bluetooth dan Lokasi HP aktif, lalu coba lagi.':skErr(e),e.name==='NotFoundError'?'warn':'err')
+ }
+}});
+if(SUP.usb)['connect','disconnect'].forEach(function(ev){navigator.usb.addEventListener(ev,skScan)});
+if(SUP.serial)['connect','disconnect'].forEach(function(ev){navigator.serial.addEventListener(ev,skScan)});
+
+/* ---------- kirim ke printer ---------- */
+async function sendUSB(d,bytes){
+ try{
+  if(!d.opened)await d.open();
+  if(!d.configuration)await d.selectConfiguration(1);
+  var t=null;
+  d.configuration.interfaces.forEach(function(i){i.alternates.forEach(function(a){
+   var ep=a.endpoints.filter(function(e){return e.direction==='out'&&e.type==='bulk'})[0];
+   if(ep&&(!t||a.interfaceClass===7))t={i:i,a:a,ep:ep}
+  })});
+  if(!t)throw new Error('Perangkat USB ini tidak punya jalur cetak (endpoint bulk out).');
+  if(!t.i.claimed)await d.claimInterface(t.i.interfaceNumber);
+  for(var o=0;o<bytes.length;o+=4096)await d.transferOut(t.ep.endpointNumber,bytes.slice(o,o+4096))
+ }catch(e){try{await d.close()}catch(x){}throw e}
+}
+async function sendSerial(port,bytes){
+ if(!port.writable)await port.open({baudRate:SS.baud||9600});
+ var w=port.writable.getWriter();
+ try{await w.write(bytes)}finally{w.releaseLock()}
+}
+var btChars=new Map();
+async function sendBT(d,bytes){
+ if(!d.gatt.connected){btChars.delete(d.id);await d.gatt.connect()}
+ var ch=btChars.get(d.id);
+ if(!ch){
+  for(const s of await d.gatt.getPrimaryServices()){
+   const c=(await s.getCharacteristics()).find(function(c){return c.properties.write||c.properties.writeWithoutResponse});
+   if(c){ch=c;break}
+  }
+  if(!ch)throw new Error('Karakteristik tulis Bluetooth tidak ditemukan. Printer ini mungkin Bluetooth klasik, bukan BLE.');
+  btChars.set(d.id,ch)
+ }
+ var size=100;
+ for(var o=0;o<bytes.length;){
+  var chunk=bytes.slice(o,o+size);
+  try{ch.properties.writeWithoutResponse?await ch.writeValueWithoutResponse(chunk):await ch.writeValue(chunk);o+=size}
+  catch(e){if(size>20){size=20;continue}throw e}
+  await skSleep(20)
+ }
+}
+function skFeedAnim(){var w=$('skWrap');w.classList.remove('feeding');void w.offsetWidth;w.classList.add('feeding');setTimeout(function(){w.classList.remove('feeding')},1700)}
+/* mengembalikan null kalau sukses, atau teks galat */
+async function skSend(r,cash){
+ var it=skDevs.filter(function(d){return d.key===skSel})[0];
+ if(!it){var m='Belum ada printer dipilih. Atur di menu Printer, atau pakai Cetak lewat browser.';skSay(m,'warn');return m}
+ if(SS.logo&&SS.logo.src){try{await getImg(SS.logo.src).decode()}catch(e){}}
+ var bytes=toBytes(skLines(r,cash));
+ skSay('Mengirim ke '+it.label+'…');
+ try{
+  await ({usb:sendUSB,serial:sendSerial,bt:sendBT}[it.kind])(it.ref,bytes);
+  skFeedAnim();skSay('Selesai dicetak.','ok');return null
+ }catch(e){
+  var m2='Gagal mencetak: '+skErr(e)+(it.kind==='usb'?' Di Windows, driver printer bawaan bisa memblokir akses USB; coba driver WinUSB (Zadig) atau pakai Bluetooth.':'');
+  skSay(m2,'err');return m2
+ }
+}
+$('skPrint').onclick=async function(){
+ if(!curS||skBusy)return;skBusy=true;this.disabled=true;
+ try{await skSend(curS.r,skCash())}finally{skBusy=false;this.disabled=false}
+};
+$('skBrowser').onclick=function(){
+ if(!curS)return;skPaint();
+ $('pagecss').textContent='@page{size:'+(SS.cols===32?58:80)+'mm auto;margin:0}';
+ setTimeout(function(){window.print()},60)
+};
+window.addEventListener('afterprint',function(){$('pagecss').textContent=''});
+$('skClose').onclick=function(){$('ovStruk').className='ov';curS=null};
+
+/* ---------- alur kasir ---------- */
+function skAfterPay(r,cash){
+ if(ADM||SS.after==='off')return;
+ if(SS.after==='auto'){
+  skSend(r,cash).then(function(err){
+   if(!err)toast('Struk dicetak');
+   else{skOpen(r,{cash:cash});skSay(err,'err')}
+  });return
+ }
+ skOpen(r,{cash:cash})
+}
+$('dPrint').onclick=function(){if(!curR)return;var r=curR;curDet=null;$('ovDet').className='ov';skOpen(r)};
+$('skTest').onclick=function(){
+ skOpen({id:Date.now(),name:'Contoh',time:new Date().toISOString(),total:32000,pay:'Cash',items:[{name:'Sweet',price:5000,qty:2,note:''},{name:'Nutella',price:7000,qty:1,note:''},{name:'Mini Croffle Req',price:15000,qty:1,note:'isi keju'}]},{test:true,cash:50000})
+};
+
+/* ---------- pengaturan ---------- */
+function skSyncUI(){
+ $('skName').value=SS.name;$('skAddr').value=SS.addr;$('skFoot').value=SS.foot;
+ $('skAfter').value=SS.after;$('skCut').checked=SS.cut;$('skBaud').value=SS.baud;
+ document.querySelectorAll('[data-cols]').forEach(function(b){b.classList.toggle('on',+b.dataset.cols===SS.cols)});
+ var has=!!(SS.logo&&SS.logo.src);
+ $('skLogoBox').style.display=has?'block':'none';$('skLogoDel').style.display=has?'':'none';
+ if(has){$('skLogoImg').src=SS.logo.src;$('skLogoW').value=String(SS.logo.width);$('skLogoM').value=SS.logo.mode;$('skLogoB').value=SS.logo.bright;$('skLogoI').checked=!!SS.logo.invert}
+}
+$('skName').oninput=function(){SS.name=this.value;saveSS()};
+$('skAddr').oninput=function(){SS.addr=this.value;saveSS()};
+$('skFoot').oninput=function(){SS.foot=this.value;saveSS()};
+$('skAfter').onchange=function(){SS.after=this.value;saveSS()};
+$('skCut').onchange=function(){SS.cut=this.checked;saveSS()};
+$('skBaud').onchange=function(){SS.baud=+this.value;saveSS()};
+document.querySelectorAll('[data-cols]').forEach(function(b){b.onclick=function(){SS.cols=+b.dataset.cols;saveSS();skSyncUI()}});
+$('skLogoPick').onclick=function(){$('skLogoFile').click()};
+$('skLogoFile').onchange=function(e){
+ var f=e.target.files&&e.target.files[0];e.target.value='';if(!f)return;
+ shrink(f,function(u){
+  if(!u){skSay('Foto tidak bisa dibaca.','err');return}
+  SS.logo={src:u,width:50,align:'C',bright:0,mode:'fs',invert:false};saveSS();skSyncUI();skSay('Logo dimuat. Pakai Cetak percobaan untuk melihat hasilnya.','ok')
+ })
+};
+$('skLogoDel').onclick=function(){SS.logo=null;saveSS();skSyncUI()};
+[['skLogoW','width',Number],['skLogoM','mode',String],['skLogoB','bright',Number]].forEach(function(a){
+ $(a[0]).oninput=function(){if(!SS.logo)return;SS.logo[a[1]]=a[2](this.value);saveSS()}
+});
+$('skLogoI').onchange=function(){if(SS.logo){SS.logo.invert=this.checked;saveSS()}};
+
+skSyncUI();if(SS.logo&&SS.logo.src)getImg(SS.logo.src);
+if(ADM){
+ var _pn=document.querySelector('.nv[data-v="printer"]');if(_pn){_pn.style.display='none';if(_pn.previousElementSibling)_pn.previousElementSibling.style.display='none'}
+ $('dPrint').style.display='none'
+}else skScan();
 
 var st=null;try{if(!ADM)st=JSON.parse(localStorage.getItem(SK)||'null')}catch(e){st=null}
 try{if(st){
