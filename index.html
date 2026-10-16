@@ -117,12 +117,20 @@ input[type=range]{padding:0;border:0;background:none;accent-color:#f5f5f5}
 .sks[data-k=ok]{color:var(--ok)}.sks[data-k=warn]{color:#fbbf24}.sks[data-k=err]{color:var(--dg)}
 .skst{display:flex;justify-content:center;margin-top:12px;padding:14px 8px;background:var(--bg);border:1px solid var(--bd);border-radius:12px;max-height:50vh;max-height:50dvh;overflow:auto}
 #skWrap{width:fit-content;filter:drop-shadow(0 8px 10px rgba(0,0,0,.45))}
-#skPaper{background:#FBFBF6;color:#1B1D3B;padding:22px 18px 16px;font:14px/1.35 "Courier Prime","Courier New",ui-monospace,monospace;width:calc(var(--cols,32)*1ch + 36px);min-height:80px}
-#skPaper .ln{white-space:pre;min-height:1.35em}
-#skPaper .ln.b{font-weight:700}
-#skPaper .ln.big{font-size:2em;line-height:1.15;min-height:1.15em}
-#skPaper .ln.img{white-space:normal;line-height:0;min-height:0;margin:4px 0}
-#skPaper .ln.img canvas{display:inline-block;image-rendering:pixelated;max-width:100%}
+#skPaper{background:#fff;color:#000;font:14px/1.3 "DejaVu Sans",Verdana,"Segoe UI",system-ui,sans-serif;width:var(--pw,20em);padding:1.6em var(--px,1em) 1.2em;box-sizing:border-box;min-height:80px}
+#skPaper .x{line-height:2.15;overflow-wrap:anywhere}
+#skPaper .b{font-weight:700}
+#skPaper .q{font-size:.92em;line-height:1.85}
+#skPaper .ttl{font-size:1.4em;font-weight:700;text-align:center;line-height:1.6;overflow-wrap:anywhere}
+#skPaper .sub{font-size:.92em;text-align:center;line-height:1.85;overflow-wrap:anywhere}
+#skPaper .gt{font-size:1.2em;font-weight:700;line-height:2}
+#skPaper .ft{font-size:.9em;text-align:center;line-height:1.85}
+#skPaper .rl{height:0;margin:.9em 0}
+#skPaper .rl.d{border-top:1px dashed #555}
+#skPaper .rl.s{border-top:1.5px solid #000}
+#skPaper .gp{height:.8em}
+#skPaper .im{text-align:center;line-height:0;margin:0 0 .6em}
+#skPaper canvas{display:inline-block;image-rendering:pixelated;max-width:100%}
 .zig{height:9px;background:#FBFBF6;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9'%3E%3Cpolygon points='0,0 14,0 7,9'/%3E%3C/svg%3E") repeat-x;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9'%3E%3Cpolygon points='0,0 14,0 7,9'/%3E%3C/svg%3E") repeat-x}
 @keyframes skfeed{from{clip-path:inset(0 0 100% 0)}to{clip-path:inset(0 0 0 0)}}
 #skWrap.feeding{animation:skfeed 1.6s steps(28) both}
@@ -136,7 +144,7 @@ input[type=range]{padding:0;border:0;background:none;accent-color:#f5f5f5}
  .skst{display:block;border:0;padding:0;margin:0;background:none;max-height:none!important;overflow:visible!important}
  #skWrap{filter:none;zoom:1!important;animation:none!important;width:auto}
  #skWrap .zig{display:none}
- #skPaper{width:calc(var(--cols,32)*1ch);padding:2mm 0 4mm;font-size:var(--pfs,3mm);background:#fff;color:#000}
+ #skPaper{font-size:3.2mm;padding-top:2mm;padding-bottom:8mm;background:#fff;color:#000}
 }
 </style>
 <style id="pagecss"></style>
@@ -207,8 +215,10 @@ input[type=range]{padding:0;border:0;background:none;accent-color:#f5f5f5}
     <label>Lebar kertas</label>
     <div class="seg"><button data-cols="32">58 mm</button><button data-cols="48">80 mm</button></div>
     <label>Nama toko</label><input id="skName" placeholder="Nama toko">
-    <label>Alamat / keterangan (opsional)</label><textarea id="skAddr" rows="2" placeholder="Alamat, nomor telepon…"></textarea>
-    <label>Teks di bawah struk</label><input id="skFoot" placeholder="Terima kasih!">
+    <label>Alamat (opsional)</label><textarea id="skAddr" rows="2" placeholder="Cabang {cabang} Jl. …"></textarea>
+    <div class="skh" style="margin-top:4px">Tulis {cabang} untuk memakai nama akun cabang secara otomatis. Nama itu juga dipakai di baris Kasir.</div>
+    <label>Nomor telepon (opsional)</label><input id="skPhone" inputmode="tel" placeholder="08…">
+    <label>Teks di bawah struk (satu baris per teks)</label><textarea id="skFoot" rows="2" placeholder="TERIMA KASIH"></textarea>
     <label>Logo (opsional)</label>
     <div class="seg"><button type="button" id="skLogoPick" style="color:var(--tx)">Pilih logo</button><button type="button" id="skLogoDel" style="color:var(--dg)">Hapus logo</button></div>
     <input type="file" id="skLogoFile" accept="image/*" style="display:none">
@@ -224,6 +234,7 @@ input[type=range]{padding:0;border:0;background:none;accent-color:#f5f5f5}
     </div>
     <label>Setelah pesanan dilayani</label>
     <select id="skAfter"><option value="ask">Tampilkan struk, lalu pilih cetak</option><option value="auto">Langsung cetak ke printer</option><option value="off">Jangan tampilkan struk</option></select>
+    <label class="ck"><input type="checkbox" id="skShowCash">Tampilkan tunai &amp; kembalian (tidak ada di contoh struk)</label>
     <label class="ck"><input type="checkbox" id="skCut">Potong kertas setelah cetak</label>
     <label>Baud rate (khusus printer serial)</label>
     <select id="skBaud"><option>9600</option><option>19200</option><option>38400</option><option>57600</option><option>115200</option></select>
@@ -633,10 +644,10 @@ function renderDashOld(){
 /* ===== CETAK STRUK =====
    Struk dibuat otomatis dari data pesanan. Dikirim ke printer thermal (ESC/POS) lewat USB, serial, atau Bluetooth BLE,
    atau dicetak lewat dialog cetak browser. Pengaturan disimpan per perangkat (printer itu menempel di perangkat ini). */
-var SS={cols:32,cut:true,baud:9600,after:'ask',name:'MITRA KASIR',addr:'',foot:'Terima kasih!',logo:null};
-try{var _s=JSON.parse(localStorage.getItem('kc_struk_v1')||'null');if(_s&&typeof _s==='object')for(var _k in _s)if(_k in SS)SS[_k]=_s[_k]}catch(e){}
+var SS={cols:32,cut:true,baud:9600,after:'ask',showCash:false,name:'Dear Croffle',addr:'Cabang {cabang} Jl. {cabang}',phone:'085736696387',foot:'TERIMA KASIH\nIG: @dearcroffle.idn',logo:null};
+try{var _s=JSON.parse(localStorage.getItem('kc_struk_v2')||'null');if(_s&&typeof _s==='object')for(var _k in _s)if(_k in SS)SS[_k]=_s[_k]}catch(e){}
 if(SS.cols!==48)SS.cols=32;
-function saveSS(){try{localStorage.setItem('kc_struk_v1',JSON.stringify(SS))}catch(e){}}
+function saveSS(){try{localStorage.setItem('kc_struk_v2',JSON.stringify(SS))}catch(e){}}
 /* nominal tunai disimpan lokal (tidak ikut ke Firestore) supaya struk cetak ulang bisa menampilkan tunai & kembalian */
 var CASH={};try{CASH=JSON.parse(localStorage.getItem('kc_cash_'+USER)||'{}')||{}}catch(e){CASH={}}
 function saveCash(){if(ADM)return;var k=Object.keys(CASH);if(k.length>300){k.sort().slice(0,k.length-300).forEach(function(x){delete CASH[x]})}try{localStorage.setItem('kc_cash_'+USER,JSON.stringify(CASH))}catch(e){}}
@@ -678,7 +689,7 @@ function processImage(b){
 function drawBm(cv,bm){
  cv.width=bm.w;cv.height=bm.h;cv.style.width=(bm.w/12)+'ch';
  var cx=cv.getContext('2d'),im=cx.createImageData(bm.w,bm.h);
- for(var i=0;i<bm.px.length;i++)if(bm.px[i]){im.data[i*4]=27;im.data[i*4+1]=29;im.data[i*4+2]=59;im.data[i*4+3]=255}
+ for(var i=0;i<bm.px.length;i++)if(bm.px[i]){im.data[i*4]=0;im.data[i*4+1]=0;im.data[i*4+2]=0;im.data[i*4+3]=255}
  cx.putImageData(im,0,0)
 }
 
@@ -696,38 +707,59 @@ function skWrap(s,w){
  return out
 }
 function skCash(){return curS&&curS.cash!=null?curS.cash:(curS?CASH[curS.r.id]:0)}
-function skLines(r,cash){
+var skP2=function(n){return String(n).padStart(2,'0')};
+var skMoney=function(n){return 'IDR '+Math.round(n||0).toLocaleString('en-US')};
+function skDT(iso,sec){var d=iso instanceof Date?iso:new Date(iso);return skP2(d.getDate())+'/'+skP2(d.getMonth()+1)+'/'+d.getFullYear()+' '+skP2(d.getHours())+':'+skP2(d.getMinutes())+(sec?':'+skP2(d.getSeconds()):'')}
+/* nama item di struk: "Croffle Brown Sugar", "Croffle Filling Nutella" */
+function skItemName(n){var c=catOf(n);return c==='Original'?'Croffle '+n:c==='Filling'?'Croffle Filling '+n:n}
+/* susunan struk (satu sumber untuk pratinjau, cetak browser, dan printer thermal) */
+function skModel(r,cash){
+ var M=[],cn=r.cn||CABNAME,sub=0;
+ var fill=function(s){return String(s||'').replace(/\{cabang\}/gi,cn)};
+ if(SS.logo&&SS.logo.src)M.push({k:'logo'});
+ if(SS.name)M.push({k:'title',t:fill(SS.name)});
+ if(SS.addr)M.push({k:'sub',t:fill(SS.addr)});
+ if(SS.phone)M.push({k:'sub',t:fill(SS.phone)});
+ M.push({k:'dash'});
+ M.push({k:'l',t:'No. Transaksi: #'+String(r.id).slice(-6)});
+ M.push({k:'l',t:'Tanggal: '+skDT(r.time)});
+ if(r.name)M.push({k:'l',t:'Pelanggan: '+r.name});
+ M.push({k:'l',t:'Kasir: '+cn});
+ M.push({k:'dash'});
+ (r.items||[]).forEach(function(l){
+  sub+=l.price*l.qty;
+  M.push({k:'iname',t:skItemName(l.name)});
+  M.push({k:'iq',t:l.qty+'x '+skMoney(l.price)+' '+skMoney(l.price*l.qty)});
+  if(l.note)M.push({k:'iq',t:'Catatan: '+l.note})
+ });
+ M.push({k:'dash'});
+ M.push({k:'l',t:'Subtotal: '+skMoney(sub)});
+ M.push({k:'solid'});
+ M.push({k:'total',t:'TOTAL: '+skMoney(r.total)});
+ M.push({k:'dash'});
+ M.push({k:'l',t:'Metode Bayar: '+(r.pay||'')});
+ if(SS.showCash&&r.pay!=='QRIS'&&cash>0){M.push({k:'l',t:'Tunai: '+skMoney(cash)});if(cash>=r.total)M.push({k:'l',t:'Kembali: '+skMoney(cash-r.total)})}
+ M.push({k:'gap'});
+ fill(SS.foot).split('\n').forEach(function(t){if(t.trim())M.push({k:'foot',t:t})});
+ M.push({k:'foot',t:skDT(new Date(),true)});
+ return M
+}
+/* versi printer thermal: baris teks ASCII, lebar tetap */
+function skLines(M){
  var cols=SS.cols,out=[];
  var push=function(t,o){out.push(Object.assign({t:t,align:'L',bold:false,big:false},o||{}))};
- var txt=function(s,o){var w=o&&o.big?Math.floor(cols/2):cols;skWrap(skAscii(s),w).forEach(function(x){push(x,o)})};
- var row=function(L,R,bold){
-  L=skAscii(L);R=skAscii(R);var o={bold:!!bold};
-  if(L.length+R.length+1<=cols){push(L+' '.repeat(cols-L.length-R.length)+R,o);return}
-  skWrap(L,cols).forEach(function(t){push(t,o)});
-  skWrap(R,cols).forEach(function(t){push(t,Object.assign({},o,{align:'R'}))})
- };
- var ln=function(c){push(c.repeat(cols))};
- if(SS.logo&&SS.logo.src){var bm=processImage(SS.logo);if(bm)push('',{align:'C',bm:bm})}
- if(SS.name)txt(SS.name,{align:'C',bold:true,big:true});
- if(SS.addr)txt(SS.addr,{align:'C'});
- var cn=r.cn||CABNAME;if(cn)txt('Cabang: '+cn,{align:'C'});
- ln('-');
- row(dt(r.time),tm(r.time));
- row('No',String(r.id).slice(-6));
- if(r.name)row('Pelanggan',r.name);
- ln('-');
- (r.items||[]).forEach(function(l){
-  skWrap(skAscii(l.name),cols).forEach(function(x){push(x)});
-  row('  '+l.qty+' x '+skFmt(l.price),skFmt(l.price*l.qty));
-  if(l.note)skWrap(skAscii(l.note),Math.max(8,cols-4)).forEach(function(x,i){push('  '+(i?'  ':'* ')+x)})
+ var txt=function(s,o){var w=o.big?Math.floor(cols/2):cols;skWrap(skAscii(s),w).forEach(function(x){push(x,o)})};
+ M.forEach(function(m){
+  var k=m.k;
+  if(k==='logo'){var bm=processImage(SS.logo);if(bm)push('',{align:'C',bm:bm})}
+  else if(k==='title')txt(m.t,{align:'C',bold:true,big:true});
+  else if(k==='sub'||k==='foot')txt(m.t,{align:'C'});
+  else if(k==='iname'||k==='total')txt(m.t,{bold:true});
+  else if(k==='l'||k==='iq')txt(m.t,{});
+  else if(k==='dash')push(('- '.repeat(cols)).slice(0,cols));
+  else if(k==='solid')push('_'.repeat(cols));
+  else if(k==='gap')push('')
  });
- ln('-');
- row('TOTAL','Rp '+skFmt(r.total),true);
- row('Bayar',r.pay||'');
- if(r.pay!=='QRIS'&&cash>0){row('Tunai','Rp '+skFmt(cash));if(cash>=r.total)row('Kembali','Rp '+skFmt(cash-r.total))}
- ln('=');
- if(SS.foot)txt(SS.foot,{align:'C'});
- push('');
  return out
 }
 function toBytes(lines){
@@ -760,15 +792,17 @@ function skFit(){
 }
 function skPaint(){
  if(!curS||!$('ovStruk').classList.contains('on'))return;
- var p=$('skPaper');p.style.setProperty('--cols',SS.cols);
- var mm=SS.cols===32?58:80;p.style.setProperty('--pfs',(mm/SS.cols/0.6).toFixed(2)+'mm');
- var bms=[];
- p.innerHTML=skLines(curS.r,skCash()).map(function(l){
-  var al='text-align:'+{L:'left',C:'center',R:'right'}[l.align];
-  if(l.bm)return '<div class="ln img" style="'+al+'"><canvas data-bm="'+(bms.push(l.bm)-1)+'"></canvas></div>';
-  return '<div class="ln'+(l.big?' big':'')+(l.bold?' b':'')+'" style="'+al+'">'+(esc(l.t)||'&nbsp;')+'</div>'
+ var p=$('skPaper'),mm=SS.cols===32?58:80,dots=SS.cols===32?384:576,bms=[];
+ p.style.setProperty('--pw',(mm/3.2).toFixed(2)+'em');p.style.setProperty('--px',(mm===80?4.55:0.94)+'em');
+ var cls={title:'ttl',sub:'sub',l:'x',iname:'x b',iq:'x q',total:'x gt',foot:'x ft'};
+ p.innerHTML=skModel(curS.r,skCash()).map(function(m){
+  if(m.k==='dash')return '<div class="rl d"></div>';
+  if(m.k==='solid')return '<div class="rl s"></div>';
+  if(m.k==='gap')return '<div class="gp"></div>';
+  if(m.k==='logo'){var bm=processImage(SS.logo);return bm?'<div class="im"><canvas data-bm="'+(bms.push(bm)-1)+'" style="width:'+(bm.w/dots*100)+'%"></canvas></div>':''}
+  return '<div class="'+cls[m.k]+'">'+esc(m.t)+'</div>'
  }).join('');
- p.querySelectorAll('canvas[data-bm]').forEach(function(c){drawBm(c,bms[+c.dataset.bm])});
+ p.querySelectorAll('canvas[data-bm]').forEach(function(c){var w=c.style.width;drawBm(c,bms[+c.dataset.bm]);c.style.width=w});
  skFit()
 }
 function skOpen(r,o){
@@ -882,7 +916,7 @@ async function skSend(r,cash){
  var it=skDevs.filter(function(d){return d.key===skSel})[0];
  if(!it){var m='Belum ada printer dipilih. Atur di menu Printer, atau pakai Cetak lewat browser.';skSay(m,'warn');return m}
  if(SS.logo&&SS.logo.src){try{await getImg(SS.logo.src).decode()}catch(e){}}
- var bytes=toBytes(skLines(r,cash));
+ var bytes=toBytes(skLines(skModel(r,cash)));
  skSay('Mengirim ke '+it.label+'…');
  try{
   await ({usb:sendUSB,serial:sendSerial,bt:sendBT}[it.kind])(it.ref,bytes);
@@ -917,12 +951,12 @@ function skAfterPay(r,cash){
 }
 $('dPrint').onclick=function(){if(!curR)return;var r=curR;curDet=null;$('ovDet').className='ov';skOpen(r)};
 $('skTest').onclick=function(){
- skOpen({id:Date.now(),name:'Contoh',time:new Date().toISOString(),total:32000,pay:'Cash',items:[{name:'Sweet',price:5000,qty:2,note:''},{name:'Nutella',price:7000,qty:1,note:''},{name:'Mini Croffle Req',price:15000,qty:1,note:'isi keju'}]},{test:true,cash:50000})
+ skOpen({id:Date.now(),name:'elsa',time:new Date().toISOString(),total:39000,pay:'QRIS',items:[{name:'Brown Sugar',price:5000,qty:5,note:''},{name:'Nutella',price:7000,qty:2,note:''}]},{test:true})
 };
 
 /* ---------- pengaturan ---------- */
 function skSyncUI(){
- $('skName').value=SS.name;$('skAddr').value=SS.addr;$('skFoot').value=SS.foot;
+ $('skName').value=SS.name;$('skAddr').value=SS.addr;$('skPhone').value=SS.phone;$('skFoot').value=SS.foot;$('skShowCash').checked=SS.showCash;
  $('skAfter').value=SS.after;$('skCut').checked=SS.cut;$('skBaud').value=SS.baud;
  document.querySelectorAll('[data-cols]').forEach(function(b){b.classList.toggle('on',+b.dataset.cols===SS.cols)});
  var has=!!(SS.logo&&SS.logo.src);
@@ -931,7 +965,9 @@ function skSyncUI(){
 }
 $('skName').oninput=function(){SS.name=this.value;saveSS()};
 $('skAddr').oninput=function(){SS.addr=this.value;saveSS()};
+$('skPhone').oninput=function(){SS.phone=this.value;saveSS()};
 $('skFoot').oninput=function(){SS.foot=this.value;saveSS()};
+$('skShowCash').onchange=function(){SS.showCash=this.checked;saveSS()};
 $('skAfter').onchange=function(){SS.after=this.value;saveSS()};
 $('skCut').onchange=function(){SS.cut=this.checked;saveSS()};
 $('skBaud').onchange=function(){SS.baud=+this.value;saveSS()};
