@@ -206,7 +206,7 @@ h1{margin:0 0 14px;font-size:24px}
 </div></div>
 
 <div class="toast" id="toast"></div>
-<div id="netPill" style="display:none;position:fixed;left:50%;transform:translateX(-50%);bottom:14px;z-index:70;color:#fff;font-size:13px;font-weight:600;padding:8px 14px;border-radius:99px;box-shadow:0 2px 10px #0008;max-width:92vw;text-align:center"></div>
+<div id="netPill" style="display:none;position:fixed;top:calc(10px + env(safe-area-inset-top,0px));right:12px;z-index:70;width:10px;height:10px;border-radius:50%;box-shadow:0 0 0 2px #0006"></div>
 
 <script>
 (function(){
@@ -481,9 +481,8 @@ function startSync(){
 function updNet(){
  var p=$('netPill'),n=pnd.length,off=!navigator.onLine;
  if(ADM){p.style.display='none';return}
- if(off){p.textContent='Offline \u00b7 pesanan disimpan di perangkat'+(n?' ('+n+' menunggu kirim)':'');p.style.background='#7a5b00';p.style.display='block'}
- else if(n){p.textContent='Mengirim '+n+' pesanan ke server...';p.style.background='#333';p.style.display='block'}
- else p.style.display='none'
+ p.style.display='block';p.style.background=off?'#ef4444':'#22c55e';
+ p.title=(off?'Offline':'Online')+(n?' \u00b7 '+n+' pesanan menunggu kirim':'')
 }
 window.addEventListener('online',updNet);window.addEventListener('offline',updNet);setInterval(updNet,3000);updNet();
 try{if('serviceWorker' in navigator&&location.protocol!=='file:')window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){})})}catch(e){}
