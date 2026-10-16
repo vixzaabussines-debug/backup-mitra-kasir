@@ -1,6 +1,6 @@
 /* Service worker: membuat halaman kasir bisa dibuka tanpa internet.
    Ubah angka V kalau ingin memaksa semua perangkat memuat ulang file. */
-const V = 'kasir-v1';
+const V = 'kasir-v2';
 const CORE = ['index.html', 'firebase-config.js', 'manifest.json', 'icon-192.png', 'icon-512.png'];
 const CDN = [
   'https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js',
